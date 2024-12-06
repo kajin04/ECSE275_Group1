@@ -11,9 +11,9 @@ As a result, we decided to implement multiple differential robots operating simu
 By combining these steps, we aimed to create a system of three differential robots capable of navigating toward their primary goals, discovering unknown secondary goal points using visual servoing, and avoiding collisions with obstacles and each other. Each robot would be given a color, red, green, and blue, so they can find their respective secondary goals that are red, green, or blue.
 
 ## Approach
-***Differential Robot***
+***Differential Robot***  
 
-***Visual Servo***
+***Visual Servo***  
 To implement visual servoing, we equipped the mobile robot with a vision sensor capable of depth perception up to 3 meters. We determined that 3 meters was an acceptable range because it allowed the robot to detect secondary goals without requiring excessive processing time to calculate their positions. (add image)
 
 To simulate the secondary goals assigned to the robots, we created colored spheres that the vision sensor could recognize. These spheres served as visual targets for the robots to identify and navigate toward. (add image)
@@ -31,9 +31,9 @@ Upon further inspection, we discovered a more effective function within the visi
 
 Using these capabilities, we programmed the mobile robot to identify the balls, select the closest one using the depth sensor, and calculate the normalized depth. This depth value was then used in a proportional control system to regulate the robot’s forward speed. As a result, the robot could identify the nearest secondary goal and move toward it. (add gif)
 
-***Potential Field***
+***Potential Field***  
 
-***Flow Chart***
+***Flow Chart***  
 
 ## Results
 
