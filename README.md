@@ -19,14 +19,14 @@ To implement visual servoing, we equipped the mobile robot with a vision sensor 
 To simulate the secondary goals assigned to the robots, we created colored spheres that the vision sensor could recognize. These spheres served as visual targets for the robots to identify and navigate toward. (add image)
 
 ---
-*Version 1*
+*Version 1*  
 We needed to develop a method for the robot to center itself on its target (ball) when it detected its respective colored ball. The initial version of the visual servo system used proportional control. Based on a predefined RGB threshold, the system scanned every pixel in the vision sensor's field of view and calculated the average position of the pixels that matched the color threshold. Using this average position, it determined the offset from the center of the vision sensor, providing an x-coordinate offset in pixels. With this value and a proportional gain factor (*kₚ*), we implemented proportional control to enable the robot to rotate toward the target. (Add gif)
 
 <ins>Limitation<ins/>
 - Multiple balls could not be tracked because the system averaged their positions, leading to inaccurate results (add gif)
 - X-coordinate offset alone could not guid the robot to move towards the goal (add gif)
 ---
-*Version 2*
+*Version 2*  
 Upon further inspection, we discovered a more effective function within the vision sensor: `simVision.blobDetectionOnWorkImg`. This function groups pixels that form an image of a ball into "blobs," allowing manipulation of each blob individually. Additionally, the vision sensor includes a depth sensor, enabling the detection of the distance between the camera and the balls.
 
 Using these capabilities, we programmed the mobile robot to identify the balls, select the closest one using the depth sensor, and calculate the normalized depth. This depth value was then used in a proportional control system to regulate the robot’s forward speed. As a result, the robot could identify the nearest secondary goal and move toward it. (add gif)
