@@ -1,3 +1,13 @@
 # Multi-agent Differential Robot Path Planning with Visual Servoing
-Final project for ECSE275 robotics class
----
+*Team Members*
+Temple Shema - 
+Kartik Doddikindi - 
+Jinsol Kang - 
+Moses Muamba - 
+## Introduction
+
+## Approach
+
+## Results
+
+## Conclusion
