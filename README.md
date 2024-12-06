@@ -34,6 +34,19 @@ Using these capabilities, we programmed the mobile robot to identify the balls, 
 ***Potential Field***  
 
 ***Flow Chart***  
+```mermaid
+graph TD
+subgraph Visual Servo
+A(Vision Sensor) -->|pixel data|B(Visual Servo)
+end
+    B --> C(Actuation)
+    D(Differential Robot) --> C
+    E --> D
+    subgraph Potential Field
+    F(Lidar) --> |distance data|E
+    B --> |on/off|E(Potential Field)
+    end
+```
 
 ## Results
 
