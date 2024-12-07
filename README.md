@@ -11,7 +11,7 @@ As a result, we decided to implement multiple differential robots operating simu
 By combining these steps, we aimed to create a system of three differential robots capable of navigating toward their primary goals, discovering unknown secondary goal points using visual servoing, and avoiding collisions with obstacles and each other. Each robot would be given a color, red, green, and blue, so they can find their respective secondary goals that are red, green, or blue.
 
 ## Approach
-***Differential Robot***  
+###Differential Robot  
 A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
 
 For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
@@ -19,8 +19,7 @@ For this project, we began by utilizing the differential robot model previously 
 
 The concepts learned in ECSE 275 facilitated the implementation of the differential robot, providing a strong foundation for incorporating additional concepts applied to the robot.
 
----
-***Visual Servo***  
+###Visual Servo 
 To implement visual servoing, we equipped the mobile robot with a vision sensor capable of depth perception up to 3 meters. We determined that 3 meters was an acceptable range because it allowed the robot to detect secondary goals without requiring excessive processing time to calculate their positions. (add image)
 
 To simulate the secondary goals assigned to the robots, we created colored spheres that the vision sensor could recognize. These spheres served as visual targets for the robots to identify and navigate toward. (add image)
@@ -37,8 +36,7 @@ Upon further inspection, we discovered a more effective function within the visi
 
 Using these capabilities, we programmed the mobile robot to identify the balls, select the closest one using the depth sensor, and calculate the normalized depth. This depth value was then used in a proportional control system to regulate the robot’s forward speed. As a result, the robot could identify the nearest secondary goal and move toward it. (add gif)
 
----
-***Potential Field***  
+###Potential Field  
 To control the mobile robot, we used a potential field approach, where obstacles and the robot exert a repulsive force, while the goal exerts an attractive force. The differential robot follows the resultant potential field at each point, guiding it toward its respective goal. This method also makes path planning reactive, allowing obstacles and goal points to change in real time.
 
 At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations: _(Include equations here.)_
@@ -57,8 +55,7 @@ There was a situation where robot-robot repulsion had a difficult time driving t
     Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose. (show fig and code)
     Having both the robot-robot repulsion and conflict resolution made it so that collision occurred way less then just using potential fields.
 
----
-***Flow Chart***  
+###Flow Chart  
 ```mermaid
 graph TD
 subgraph Visual Servo
