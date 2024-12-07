@@ -15,7 +15,19 @@ By combining these steps, we aimed to create a system of three differential robo
 A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
 
 For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
-(ADD CODE)
+
+$$
+\begin{bmatrix}
+\omega_R \\
+\omega_L
+\end{bmatrix} =
+\frac{1}{r} \begin{bmatrix} C_\theta - \frac{w}{2a} S_\theta & S_\theta + \frac{w}{2a} C_\theta \\ C_\theta + \frac{w}{2a} S_\theta & S_\theta - \frac{w}{2a} C_\theta \end{bmatrix} \begin{bmatrix} \dot{x}_a \\ \dot{y}_a \end{bmatrix}
+$$
+where 
+$$
+\begin{bmatrix} \dot{x}_a \\ \dot{y}_a \end{bmatrix} =
+\begin{bmatrix} x_d - x_a \\ y_d - y_a \end{bmatrix}
+$$
 
 The concepts learned in ECSE 275 facilitated the implementation of the differential robot, providing a strong foundation for incorporating additional concepts applied to the robot.
 
@@ -41,7 +53,10 @@ Using these capabilities, we programmed the mobile robot to identify the balls, 
 ### Potential Field  
 To control the mobile robot, we used a potential field approach, where obstacles and the robot exert a repulsive force, while the goal exerts an attractive force. The differential robot follows the resultant potential field at each point, guiding it toward its respective goal. This method also makes path planning reactive, allowing obstacles and goal points to change in real time.
 
-At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations: _(Include equations here.)_
+At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations:
+$$
+\vec{F} = \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i}
+$$
 
 Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula: _(Include the formula for repulsive force here.)_ Similarly, the attractive force exerted by the goal is determined using this formula: _(Include the formula for attractive force here.)_
 
