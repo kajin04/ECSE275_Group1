@@ -12,6 +12,12 @@ By combining these steps, we aimed to create a system of three differential robo
 
 ## Approach
 ***Differential Robot***  
+A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
+
+For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
+(ADD CODE)
+
+The concepts learned in ECSE 275 facilitated the implementation of the differential robot, providing a strong foundation for incorporating additional concepts applied to the robot.
 
 ***Visual Servo***  
 To implement visual servoing, we equipped the mobile robot with a vision sensor capable of depth perception up to 3 meters. We determined that 3 meters was an acceptable range because it allowed the robot to detect secondary goals without requiring excessive processing time to calculate their positions. (add image)
@@ -32,6 +38,25 @@ Upon further inspection, we discovered a more effective function within the visi
 Using these capabilities, we programmed the mobile robot to identify the balls, select the closest one using the depth sensor, and calculate the normalized depth. This depth value was then used in a proportional control system to regulate the robot’s forward speed. As a result, the robot could identify the nearest secondary goal and move toward it. (add gif)
 
 ***Potential Field***  
+To control the mobile robot, we used a potential field approach, where obstacles and the robot exert a repulsive force, while the goal exerts an attractive force. The differential robot follows the resultant potential field at each point, guiding it toward its respective goal. This method also makes path planning reactive, allowing obstacles and goal points to change in real time.
+
+At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations: _(Include equations here.)_
+
+Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula: _(Include the formula for repulsive force here.)_ Similarly, the attractive force exerted by the goal is determined using this formula: _(Include the formula for attractive force here.)_
+
+Implementing the potential field was feasible because we gained a solid understanding of it in ECSE 275. This foundation enabled us to implement additional repulsive functions, such as robot-to-robot repulsion and conflict resolution, with greater confidence.
+
+<ins>Robot Collision Avoidance</ins>
+- *Robot-Robot Repulsion*
+We added a function to increase the robots’ repulsive force when they are in close proximity to each other. This adjustment ensures that collisions are avoided, as the obstacle's repulsive force alone might otherwise push the robots toward one another. _(Include a GIF demonstrating this behavior.)_
+
+	As shown, when two mobile robots are placed between obstacles, they successfully maneuver around each other, as their mutual repulsive force becomes stronger than the obstacle's repulsive force.
+- *Conflict resolution*
+There was a situation where robot-robot repulsion had a difficult time driving the robot to its destination. When robots come in a perpendicular path, and there were obstacles around the four corners they come from, they would collide. (show gif)
+    Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose. (show fig and code)
+    Having both the robot-robot repulsion and conflict resolution made it so that collision occurred way less then just using potential fields.
+
+
 
 ***Flow Chart***  
 ```mermaid
@@ -39,14 +64,19 @@ graph TD
 subgraph Visual Servo
 A(Vision Sensor) -->|pixel data|B(Visual Servo)
 end
-    B --> C(Actuation)
-    D(Differential Robot) --> C
-    E --> D
+    B --> |wheel speed|C(Actuation)
+    D(Differential Robot) --> |wheel speed|C
+    E --> |potential|D
     subgraph Potential Field
     F(Lidar) --> |distance data|E
     B --> |on/off|E(Potential Field)
     end
 ```
+As shown in the flowchart, both the LiDAR sensor and the vision sensor are continuously active. The LiDAR sensor provides distance measurements for the potential field, while the vision sensor supplies pixel data for the visual servoing.
+
+If no ball is detected by the vision sensor, the potential field takes the distance data from the LiDAR sensor to calculate the total potential that the robot experiences. The differential robot then uses this value to determine the wheel speeds through inverse kinematics. To ensure a smooth transition between different potential field states, a smoothing function is applied to prevent jerky movements. _(Include code demonstrating this functionality.)_
+
+If a ball is detected by the visual servoing system, it overrides the potential field input and directly provides wheel speed commands to the actuators using the proportional control method described earlier. A smoothing factor is also applied here to ensure that switching from potential field control to visual servoing occurs without sudden jerks.
 
 ## Results
 
