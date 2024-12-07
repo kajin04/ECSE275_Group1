@@ -54,6 +54,7 @@ Using these capabilities, we programmed the mobile robot to identify the balls, 
 To control the mobile robot, we used a potential field approach, where obstacles and the robot exert a repulsive force, while the goal exerts an attractive force. The differential robot follows the resultant potential field at each point, guiding it toward its respective goal. This method also makes path planning reactive, allowing obstacles and goal points to change in real time.
 
 At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations:
+
 $$
 \vec{F} = \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i}
 $$
