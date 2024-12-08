@@ -1,3 +1,5 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+
 # Multi-agent Differential Robot Path Planning with Visual Servoing
 <ins>Team Members</ins>  
 Temple Shema -   
