@@ -88,13 +88,13 @@ $$
 Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula:
 
 $$
-\nabla U(\vec{p}) = \begin{cases} \frac{-c_1 (\vec{p} - \vec{p,Obs})}{|\vec{p} - \vec{p,Obs}|^3} & d_{min} \leq |\vec{p} - \vec{p,Obs}| \leq d_{max} \\ 0 & \text{otherwise} \end{cases}
+\nabla U(\vec{p}) = \begin{cases} \frac{-c_1 (\vec{p} - \vec{p,Obs})}{|\vec{p} - \vec{p,Obs}|^3} & d_{min} \leq |\vec{p} - \vec{p,Obs}| \leq d_{max} \\\ 0 & \text{otherwise} \end{cases}
 $$
 
 Similarly, the attractive force exerted by the goal is determined using this formula:
 
 $$
-\nabla U(\vec{p}) = \begin{cases} k_1 (\vec{p} - \vec{p,goal}) & |\vec{p,goal} - \vec{p}| < d \\ \frac{d k_1 (\vec{p} - \vec{p,goal})}{|\vec{p} - \vec{p,goal}|} & |\vec{p,goal} - \vec{p}| \geq d \end{cases}
+\nabla U(\vec{p}) = \begin{cases} k_1 (\vec{p} - \vec{p,goal}) & |\vec{p,goal} - \vec{p}| < d \\\ \frac{d k_1 (\vec{p} - \vec{p,goal})}{|\vec{p} - \vec{p,goal}|} & |\vec{p,goal} - \vec{p}| \geq d \end{cases}
 $$
 
 Implementing the potential field was feasible because we gained a solid understanding of it in ECSE 275. This foundation enabled us to implement additional repulsive functions, such as robot-to-robot repulsion and conflict resolution, with greater confidence.
