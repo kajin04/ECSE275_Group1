@@ -108,7 +108,8 @@ As shown, when two mobile robots are placed between obstacles, they successfully
 There was a situation where robot-robot repulsion had a difficult time driving the robot to its destination. When robots come in a perpendicular path, and there were obstacles around the four corners they come from, they would collide.
     Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose.
 
-		def resolve_conflicts(robot_name, dU, priority_dict, shared_positions, conflict_dist=1.0):
+	def resolve_conflicts(robot_name, dU, priority_dict, shared_positions, conflict_dist=1.0):
+  
 	 		current_position = shared_positions[robot_name]
 	    		for other_robot_name, other_position in shared_positions.items():
 	        		if other_robot_name != robot_name:
