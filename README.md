@@ -15,7 +15,7 @@ By combining these steps, we aimed to create a system of three differential robo
 A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
 
 <p align="center">
-![Mobile Robot Model](275Images/purerobot.png)
+  <img src="FollowBall" alt="Equation" />
 </p>
 
 For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
