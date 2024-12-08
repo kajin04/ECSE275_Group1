@@ -2,7 +2,7 @@
 <ins>Team Members</ins>  
 Temple Shema -   
 Kartik Doddikindi -   
-Jinsol Kang - Visual Servo, Collision Modeling, Github 
+Jinsol Kang - Visual Servo, Collision Modeling, Github  
 Moses Muamba -   
 
 ## Introduction
