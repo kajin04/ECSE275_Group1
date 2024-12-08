@@ -80,17 +80,17 @@ To control the mobile robot, we used a potential field approach, where obstacles
 
 At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations:
 
-$$
-\vec{F} = \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i}
+$$ 
+\vec{F} = \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i} 
 $$
 
 Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula:
 
-_(Include the formula for repulsive force here.)_ 
+$$ \nabla U(\vec{p}) = \begin{cases} \frac{-c_1 (\vec{p} - \vec{p}_{obs})}{|\vec{p} - \vec{p}_{obs}|^3} & d_{min} \leq |\vec{p} - \vec{p}_{obs}| \leq d_{max} \\ 0 & \text{otherwise} \end{cases} $$
 
 Similarly, the attractive force exerted by the goal is determined using this formula:
 
-_(Include the formula for attractive force here.)_
+$$ \nabla U(\vec{p}) = \begin{cases} k_1 (\vec{p} - \vec{p}_{goal}) & |\vec{p}_{goal} - \vec{p}| < d \\ \frac{d k_1 (\vec{p} - \vec{p}_{goal})}{|\vec{p} - \vec{p}_{goal}|} & |\vec{p}_{goal} - \vec{p}| \geq d \end{cases} $$
 
 Implementing the potential field was feasible because we gained a solid understanding of it in ECSE 275. This foundation enabled us to implement additional repulsive functions, such as robot-to-robot repulsion and conflict resolution, with greater confidence.
 
