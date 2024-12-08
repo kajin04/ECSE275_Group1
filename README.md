@@ -2,7 +2,7 @@
 <ins>Team Members</ins>  
 Temple Shema -   
 Kartik Doddikindi -   
-Jinsol Kang -   
+Jinsol Kang - Visual Servo, Collision Modeling, Github 
 Moses Muamba -   
 
 ## Introduction
@@ -80,18 +80,41 @@ $$
 \vec{F} = \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i}
 $$
 
-Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula: _(Include the formula for repulsive force here.)_ Similarly, the attractive force exerted by the goal is determined using this formula: _(Include the formula for attractive force here.)_
+Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula:
+
+_(Include the formula for repulsive force here.)_ 
+
+Similarly, the attractive force exerted by the goal is determined using this formula:
+
+_(Include the formula for attractive force here.)_
 
 Implementing the potential field was feasible because we gained a solid understanding of it in ECSE 275. This foundation enabled us to implement additional repulsive functions, such as robot-to-robot repulsion and conflict resolution, with greater confidence.
 
 <ins>Robot Collision Avoidance</ins>
 - *Robot-Robot Repulsion*
-We added a function to increase the robots’ repulsive force when they are in close proximity to each other. This adjustment ensures that collisions are avoided, as the obstacle's repulsive force alone might otherwise push the robots toward one another. _(Include a GIF demonstrating this behavior.)_
+We added a function to increase the robots’ repulsive force when they are in close proximity to each other. This adjustment ensures that collisions are avoided, as the obstacle's repulsive force alone might otherwise push the robots toward one another. 
+
+<p align="center">
+  <img src="Images/Avoid.gif" alt="Robot-Robot Repulsion" />
+</p>
 
 	As shown, when two mobile robots are placed between obstacles, they successfully maneuver around each other, as their mutual repulsive force becomes stronger than the obstacle's repulsive force.
+ 
 - *Conflict resolution*
-There was a situation where robot-robot repulsion had a difficult time driving the robot to its destination. When robots come in a perpendicular path, and there were obstacles around the four corners they come from, they would collide. (show gif)
-    Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose. (show fig and code)
+There was a situation where robot-robot repulsion had a difficult time driving the robot to its destination. When robots come in a perpendicular path, and there were obstacles around the four corners they come from, they would collide.
+    Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose. (show code)
+
+<p align="center">
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="Images/Collide" alt="collision" width="45%" />
+    <figcaption style="text-align: center;">Collision</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="Images/Resolve" alt="resolve" width="45%" />
+    <figcaption style="text-align: center;">Resolve</figcaption>
+  </figure>
+</p>
+
     Having both the robot-robot repulsion and conflict resolution made it so that collision occurred way less then just using potential fields.
 
 ---
