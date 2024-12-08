@@ -18,7 +18,7 @@ For this project, we began by utilizing the differential robot model previously 
 
 $$
 \begin{bmatrix}
-\omega_R \\
+\omega_R \\\
 \omega_L
 \end{bmatrix} =
 \frac{1}{r} \begin{bmatrix} C_\theta - \frac{w}{2a} S_\theta & S_\theta + \frac{w}{2a} C_\theta \\ C_\theta + \frac{w}{2a} S_\theta & S_\theta - \frac{w}{2a} C_\theta \end{bmatrix} \begin{bmatrix} \dot{x}_a \\ \dot{y}_a \end{bmatrix}
