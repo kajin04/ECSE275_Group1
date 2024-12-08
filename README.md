@@ -14,6 +14,10 @@ By combining these steps, we aimed to create a system of three differential robo
 ### Differential Robot  
 A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
 
+<p align="center">
+  <img src="Images/purerobot.png" alt="Differential Robot" />
+</p>
+
 For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
 
 $$
@@ -33,20 +37,33 @@ The concepts learned in ECSE 275 facilitated the implementation of the different
 
 ---
 ### Visual Servo 
-To implement visual servoing, we equipped the mobile robot with a vision sensor capable of depth perception up to 3 meters. We determined that 3 meters was an acceptable range because it allowed the robot to detect secondary goals without requiring excessive processing time to calculate their positions. (add image)
+To implement visual servoing, we equipped the mobile robot with a vision sensor capable of depth perception up to 3 meters. We determined that 3 meters was an acceptable range because it allowed the robot to detect secondary goals without requiring excessive processing time to calculate their positions. 
 
-To simulate the secondary goals assigned to the robots, we created colored spheres that the vision sensor could recognize. These spheres served as visual targets for the robots to identify and navigate toward. (add image)
+<p align="center">
+  <img src="Images/VisionRobot.png" alt="Differential Robot with Vision Sensor" />
+</p>
+
+To simulate the secondary goals assigned to the robots, we created colored spheres that the vision sensor could recognize. These spheres served as visual targets for the robots to identify and navigate toward.
 
 *Version 1*  
 We needed to develop a method for the robot to center itself on its target (ball) when it detected its respective colored ball. The initial version of the visual servo system used proportional control. Based on a predefined RGB threshold, the system scanned every pixel in the vision sensor's field of view and calculated the average position of the pixels that matched the color threshold. Using this average position, it determined the offset from the center of the vision sensor, providing an x-coordinate offset in pixels. With this value and a proportional gain factor (*kₚ*), we implemented proportional control to enable the robot to rotate toward the target.
 
 <p align="center">
-  <img src="FollowBall.gif" alt="Visual Servo Version 1" />
+  <img src="Images/FollowBall.gif" alt="Visual Servo Version 1" />
 </p>
 
 <ins>Limitation<ins/>
-- Multiple balls could not be tracked because the system averaged their positions, leading to inaccurate results (add gif)
-- X-coordinate offset alone could not guid the robot to move towards the goal (add gif)
+- Multiple balls could not be tracked because the system averaged their positions, leading to inaccurate results
+
+<p align="center">
+  <img src="Images/TwoBall.gif" alt="Visual Servo Limitation 1" />
+</p>
+
+- X-coordinate offset alone could not guid the robot to move towards the goal
+
+<p align="center">
+  <img src="Images/NoGo.gif" alt="Visual Servo Limitation 2" />
+</p>
 
 *Version 2*  
 Upon further inspection, we discovered a more effective function within the vision sensor: `simVision.blobDetectionOnWorkImg`. This function groups pixels that form an image of a ball into "blobs," allowing manipulation of each blob individually. Additionally, the vision sensor includes a depth sensor, enabling the detection of the distance between the camera and the balls.
