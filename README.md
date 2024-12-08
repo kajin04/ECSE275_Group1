@@ -14,10 +14,6 @@ By combining these steps, we aimed to create a system of three differential robo
 ### Differential Robot  
 A differential robot is a mobile robot that navigates using two independently driven wheels mounted on a common axis. These wheels rotate at different speeds to control the robot's movement.
 
-<p align="center">
-  <img src="FollowBall" alt="Equation" />
-</p>
-
 For this project, we began by utilizing the differential robot model previously used in a homework assignment on mobile robots. To get the robot moving, we applied inverse kinematics to calculate the joint actuation of each wheel. The code from the homework assignment was appropriate for this project, as it effectively computes joint speeds from potential fields.
 
 $$
@@ -44,7 +40,9 @@ To simulate the secondary goals assigned to the robots, we created colored spher
 *Version 1*  
 We needed to develop a method for the robot to center itself on its target (ball) when it detected its respective colored ball. The initial version of the visual servo system used proportional control. Based on a predefined RGB threshold, the system scanned every pixel in the vision sensor's field of view and calculated the average position of the pixels that matched the color threshold. Using this average position, it determined the offset from the center of the vision sensor, providing an x-coordinate offset in pixels. With this value and a proportional gain factor (*kₚ*), we implemented proportional control to enable the robot to rotate toward the target.
 
-![Visual Servo Version 1](FollowBall.gif)
+<div align="center">
+  ![Visual Servo Version 1](FollowBall.gif)
+</div>
 
 <ins>Limitation<ins/>
 - Multiple balls could not be tracked because the system averaged their positions, leading to inaccurate results (add gif)
