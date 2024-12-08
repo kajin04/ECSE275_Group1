@@ -81,9 +81,9 @@ To control the mobile robot, we used a potential field approach, where obstacles
 At regular intervals, we calculate the total potential field by summing all the repulsive and attractive forces using the following equations:
 
 $$
-\vec{F} = 
-$$
 \vec{F}_{att} + \sum_{i=1}^{n_{obs}} \vec{F}_{rep,i} 
+$$
+
 
 Using the LiDAR sensor to measure distances, we calculate the repulsive force from obstacles using this formula:
 
