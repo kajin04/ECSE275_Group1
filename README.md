@@ -154,9 +154,19 @@ end
 ```
 As shown in the flowchart, both the LiDAR sensor and the vision sensor are continuously active. The LiDAR sensor provides distance measurements for the potential field, while the vision sensor supplies pixel data for the visual servoing.
 
-If no ball is detected by the vision sensor, the potential field takes the distance data from the LiDAR sensor to calculate the total potential that the robot experiences. The differential robot then uses this value to determine the wheel speeds through inverse kinematics. To ensure a smooth transition between different potential field states, a smoothing function is applied to prevent jerky movements. _(Include code demonstrating this functionality.)_
+If no ball is detected by the vision sensor, the potential field takes the distance data from the LiDAR sensor to calculate the total potential that the robot experiences. The differential robot then uses this value to determine the wheel speeds through inverse kinematics. To ensure a smooth transition between different potential field states, a smoothing function is applied to prevent jerky movements.
 
-If a ball is detected by the visual servoing system, it overrides the potential field input and directly provides wheel speed commands to the actuators using the proportional control method described earlier. A smoothing factor is also applied here to ensure that switching from potential field control to visual servoing occurs without sudden jerks.
+	smoothed_dU = alpha * previous_dU[robot_name] + (1 - alpha) * current_dU
+ 	previous_dU[robot_name] = smoothed_dU
+
+If a ball is detected by the visual servoing system, it overrides the potential field input and directly provides wheel speed commands to the actuators using the proportional control method described earlier. A smoothing factor is also applied here with 'alpha' being increment factor to ensure that switching from potential field control to visual servoing occurs without sudden jerks.
+
+	local blended_leftSpeed = (1 - alpha) * pf_leftSpeed + alpha * (vs_leftSpeed or 0)
+ 	local blended_rightSpeed = (1 - alpha) * pf_rightSpeed + alpha * (vs_rightSpeed or 0)
+    
+	local smoothing_factor = 0.3 -- Adjust this for desired smoothness
+	smoothed_leftSpeed = (1 - smoothing_factor) * (smoothed_leftSpeed or 0) + smoothing_factor * blended_leftSpeed
+	smoothed_rightSpeed = (1 - smoothing_factor) * (smoothed_rightSpeed or 0) + smoothing_factor * blended_rightSpeed
 
 ## Results
 
