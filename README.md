@@ -21,12 +21,12 @@ $$
 \omega_R \\\
 \omega_L
 \end{bmatrix} =
-\frac{1}{r} \begin{bmatrix} C_\theta - \frac{w}{2a} S_\theta & S_\theta + \frac{w}{2a} C_\theta \\ C_\theta + \frac{w}{2a} S_\theta & S_\theta - \frac{w}{2a} C_\theta \end{bmatrix} \begin{bmatrix} \dot{x}_a \\ \dot{y}_a \end{bmatrix}
+\frac{1}{r} \begin{bmatrix} C_\theta - \frac{w}{2a} S_\theta & S_\theta + \frac{w}{2a} C_\theta \\\ C_\theta + \frac{w}{2a} S_\theta & S_\theta - \frac{w}{2a} C_\theta \end{bmatrix} \begin{bmatrix} \dot{x}_a \\\ \dot{y}_a \end{bmatrix}
 $$
 where 
 $$
-\begin{bmatrix} \dot{x}_a \\ \dot{y}_a \end{bmatrix} =
-\begin{bmatrix} x_d - x_a \\ y_d - y_a \end{bmatrix}
+\begin{bmatrix} \dot{x}_a \\\ \dot{y}_a \end{bmatrix} =
+\begin{bmatrix} x_d - x_a \\\ y_d - y_a \end{bmatrix}
 $$
 
 The concepts learned in ECSE 275 facilitated the implementation of the differential robot, providing a strong foundation for incorporating additional concepts applied to the robot.
