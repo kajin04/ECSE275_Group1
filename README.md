@@ -112,9 +112,9 @@ There was a situation where robot-robot repulsion had a difficult time driving t
 	 		current_position = shared_positions[robot_name]
 	 		for other_robot_name, other_position in shared_positions.items():
 	 			if other_robot_name != robot_name:
-	 			distance = np.linalg.norm(current_position - other_position)
-  				if distance < conflict_dist and priority_dict[other_robot_name] > priority_dict[robot_name]:
-  					dU *= 0.5  
+	 				distance = np.linalg.norm(current_position - other_position)
+  					if distance < conflict_dist and priority_dict[other_robot_name] > priority_dict[robot_name]:
+  						dU *= 0.5  
 
   		return dU
 
