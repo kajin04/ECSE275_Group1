@@ -105,8 +105,14 @@ There was a situation where robot-robot repulsion had a difficult time driving t
     Hence we added a function that prioritizes one robot (hard coded) so that the least priority robot slows down so that the priority robot can pass. This is done by lowering the potential field by a factor we can choose. (show code)
 
 <p align="center">
-  <img src="Images/Collide" alt="Collision" width="45%" />
-  <img src="Images/Resolve" alt="Resolve" width="45%" />
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="Images/Collide.gif" alt="collision" width="45%" />
+    <figcaption style="text-align: center;">Collision</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="Images/Resolve.gif" alt="resolve" width="45%" />
+    <figcaption style="text-align: center;">Resolve</figcaption>
+  </figure>
 </p>
 
 Having both the robot-robot repulsion and conflict resolution made it so that collision occurred way less then just using potential fields.
