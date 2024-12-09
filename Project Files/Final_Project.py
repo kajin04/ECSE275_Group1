@@ -3,20 +3,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 import time
-import ecse275utils as util
+import math
 
 """
-Last Updated: November 24, 2024 
-
+Last Updated: December 4, 2024 
 @author: Temple 
 """
-# Work on robot path optimization
-# Other secondary goals should be given priority next
-
-# %%
-# Still need some work on smooth transition check version 2
-# Define smoothing parameters and helper functions
-
 
 # Smoothing factor for exponential smoothing
 alpha = 0.8
@@ -34,6 +26,84 @@ priority_dict = {"0": 1, "1": 2, "2": 3}
 decel_time = 1.0  # Deceleration period in seconds
 time_step = 0.15  # Time step for gradual reduction
 
+# For BenchMarking the Performance Purpose Only(Not used for Dynamic Assignment of Secondary Goals)
+# Define all the coloured Blobs below and the compare actual versus expected
+# This are sample expected target blob position(We only care about x & y since z is constant)
+ground_truth_blobs = {
+    "0": [(-6.775, -2.125),(-2.025, 6.225),(6.325,-4.3)],  # Red Robot
+    "1": [(0.725,1.925),(-6.65,-1.025),(3.1,-6.625)],  # Green Robot
+    "2": [(1.750, -7.00), (4.575, -2.225),(-0.725,0.25),(1.025,4.5)],  # Blue Robot
+}
+
+ground_truth_counts = {"0": 2, "1": 1, "2": 2}  # Target counts for each robot
+
+# We have 13 blobs randomly distributed for test(4 Red, 4 Green, 5 Blue)
+total_targets_red = 4
+total_targets_green = 4
+total_targets_blue = 5
+
+def calculate_success_rate(num_detected, robot_name):
+    """
+    Calculates the success rate for a robot based on detected targets.
+    num_detected: number of detected blobs
+    robot_name: name of the robot
+    total_targets: total number of potential targets
+    """
+    if robot_name == "0":
+        total_targets = total_targets_red
+    elif robot_name == "1":
+        total_targets = total_targets_green
+    elif robot_name == "2":
+        total_targets = total_targets_blue
+    return (num_detected / total_targets) * 100
+
+def calculate_position_error(detected_positions, robot_name):
+    """
+    Calculates the average position error between detected and ground truth blobs.
+    detected_positions can be:
+      - A dictionary of the form {key: {"x": float, "y": float}, ...}
+      - A list of dictionaries of the form [{"x": float, "y": float}, ...]
+    ground_truth_blobs[robot_name] should be a list or dictionary of points that can be converted similarly.
+    Return Error Associated with the position.
+    """
+
+    # Ensure detected_positions is a list of (x, y) tuples
+    if isinstance(detected_positions, dict):
+
+        detected_positions = [(float(blob["x"]), float(blob["y"])) for blob in detected_positions.values()]
+    else:
+        # If detected_positions is already a list of dicts
+        detected_positions = [(float(blob["x"]), float(blob["y"])) for blob in detected_positions]
+
+    # Set Ground Truth Position Data to appropriate robot assignment
+    gt_data = ground_truth_blobs[robot_name]
+    # Handle if it's dict keyed by something else:
+    if isinstance(gt_data, dict):
+        gt_positions = [(float(v["x"]), float(v["y"])) for v in gt_data.values()]
+    else:
+        # If it's a list of dicts [{"x":..., "y":...}] or list of tuples
+        # Try handling dicts first, else assume they are already numeric
+        if len(gt_data) > 0 and isinstance(gt_data[0], dict):
+            gt_positions = [(float(p["x"]), float(p["y"])) for p in gt_data]
+        else:
+            # Already a list of numeric tuples or something similar:
+            gt_positions = [(float(p[0]), float(p[1])) for p in gt_data]
+
+    total_error = 0.0
+
+    # Compute the minimal error from each detected to any ground truth point
+    for detected in detected_positions:
+        detected_arr = np.array(detected)
+        min_error = float('inf')
+        for actual in gt_positions:
+            actual_arr = np.array(actual)
+            error = np.linalg.norm(detected_arr - actual_arr)
+            if error < min_error:
+                min_error = error
+        total_error += min_error
+
+    return total_error / len(detected_positions) if detected_positions else 0.0
+
 def smooth_stop(robot_name, sim, scriptfuncname):
     """
     Smoothly stops the robot by gradually reducing wheel velocities and gradients.
@@ -50,7 +120,6 @@ def smooth_stop(robot_name, sim, scriptfuncname):
 
     # Get the current gradient and velocity
     current_dU = previous_dU[robot_name]
-    print(robot_name)
 
     # Gradually reduce the gradient and velocities to zero
     steps = int(decel_time / time_step)
@@ -68,7 +137,7 @@ def smooth_stop(robot_name, sim, scriptfuncname):
 
 def smooth_gradient(current_dU, robot_name):
     """
-    Applies exponential smoothing to the gradient for smoother transitions.
+    Applies exponential smoothing to the gradient for smoother transitions using available previous_dU.
     """
     global previous_dU
     smoothed_dU = alpha * previous_dU[robot_name] + (1 - alpha) * current_dU
@@ -161,44 +230,111 @@ def resolve_conflicts(robot_name, dU, priority_dict, shared_positions, conflict_
                 dU *= 0.5  # Reduce movement to yield to higher-priority robot
     return dU
 
-def rep_hyper_vec(distances, eta=1, max_dist=2, min_dist=1):
+def process_blob_data(global_blob_data_sources, target_blob_data, robot_name, robot_goal_queue, sim):
     """
-    Computes the repulsive potential for multiple points using a hyperbolic function.
-    """
-    U = np.zeros_like(distances)
-    mask = (distances >= max_dist)
-    U[mask] = 0
-    mask = (min_dist <= distances) & (distances < max_dist)
-    distance = distances[mask]  # Points within min_dist and max_dist
-    U[mask] = eta * (1 / distance - 1 / max_dist)
-    mask = (distances < min_dist)  # Points closer than min_dist
-    U[mask] = eta * (1 / min_dist - 1 / max_dist)
-    return U
-    #return U * 0.5
+    Processes relevant globalBlobData from other robots to find potential secondary goals for the robot.
+    Adds secondary goals to the robot's goal queue if distinct from targetBlobData and the goal queue.
 
-def att_quadcone_vec(dist, eta1=1, eta2=10, thresh=2):
+    Parameters:
+    -----------
+    global_blob_data_sources : list
+        List of globalBlobData dictionaries from other robots.
+    target_blob_data : dict
+        Dictionary containing the robot's specific target blobs.
+    robot_name : str
+        Name of the robot ("0" for red, "1" for green, "2" for blue).
+    robot_goal_queue : list
+        The robot's current goal queue.
+    sim : object
+        Simulation object.
     """
-    Computes the attractive potential for multiple points using a hybrid quadratic-conic function.
-    """
-    U = np.zeros_like(dist)
-    h, w = U.shape
-    mask = (dist <= thresh)
-    U = U.reshape((-1))
-    mask = mask.reshape((-1))
-    dist = dist.reshape((-1))
-    distance = dist[mask]  # Below the threshold
-    U[mask] = 0.5 * eta1 * np.power(distance, 2)
-    mask = (dist > thresh)  # Above the threshold
-    distance = dist[mask]
-    U[mask] = thresh * eta2 * (distance) - eta1 * (thresh**2) * 0.5
-    #U[mask] = thresh * eta2 * (distance) * 0.8  # Reduce distant influence (NEW CHANGE)
-    return U.reshape(h, w)
+    # Determine the target color for the robot
+    target_color = None
+    if robot_name == "0":
+        target_color = "red"
+    elif robot_name == "1":
+        target_color = "green"
+    elif robot_name == "2":
+        target_color = "blue"
 
+    for other_blob_data in global_blob_data_sources:
+        for blob in other_blob_data:
+            # Filter blobs based on the robot's target color
+            if blob['label'] == target_color:
+                blob_position = np.array([blob['x'], blob['y']])
+
+                # Check if the blob is distinct from targetBlobData
+                is_distinct_target = all(
+                    np.linalg.norm(blob_position - np.array([target['x'], target['y']])) > 0.5
+                    for target in target_blob_data
+                )
+
+                # Check if the blob is not already in the goal queue
+                is_distinct_goal = all(
+                    np.linalg.norm(blob_position - np.array(sim.getObjectPosition(goal, sim.handle_world)[:2])) > 0.5
+                    for goal in robot_goal_queue
+                )
+
+                if is_distinct_target and is_distinct_goal:
+                    dummy_handle = create_dummy(blob_position, sim)
+                    add_secondary_goal(robot_name, dummy_handle, robot_goal_queue)
+
+
+
+def is_close(pos1, pos2, threshold=0.5):
+    """
+    Used For Filtering Noise to avoid duplication
+    """
+
+    # Calculate Euclidean distance
+    dx = pos1["x"] - pos2["x"]
+    dy = pos1["y"] - pos2["y"]
+    dist = math.sqrt(dx*dx + dy*dy)
+    return dist < threshold
+
+
+
+def create_dummy(position, sim):
+    """
+    Creates a temporary dummy in the simulation at the given position.
+
+    Parameters:
+    -----------
+    position : numpy array
+        The (x, y) position for the dummy in world coordinates.
+    sim : object
+        Simulation object.
+
+    Returns:
+    --------
+    int
+        Handle of the created dummy object.
+    """
+    dummy_handle = sim.createDummy(0.3, None)  # Create a dummy same size as primary goal size
+    sim.setObjectPosition(dummy_handle, sim.handle_world, [position[0], position[1], 0.24])
+    return dummy_handle
+
+
+def add_secondary_goal(robot_name, dummy_handle, robot_goal_queue):
+    """
+    Adds a secondary goal (dummy) to the robot's goal queue.
+
+    Parameters:
+    -----------
+    robot_name : str
+        Name of the robot.
+    dummy_handle : int
+        Handle of the dummy representing the secondary goal.
+    robot_goal_queue : list
+        The robot's current goal queue.
+    Add dummy as a secondary goal before the last primary goal to give priority to secondary goal after initial exploration
+    """
+    robot_goal_queue.insert(-1, dummy_handle)
 
 # Main control logic
 run_reactive_control = True
 stop_condition = 0.5  # meters
-goal_transition_delay = 5  # seconds
+goal_transition_delay = 1  # seconds
 
 
 if __name__ == '__main__':
@@ -212,7 +348,8 @@ if __name__ == '__main__':
         sim.getObjectHandle("/Pure_Robot[2]/Dummy")
     ]
 
-    # Define goal queues for each robot
+    # Define the initial priamary goal queues for each robot
+    # Secondary goals will be added when appropriate
     goal_queues = {
         "0": [sim.getObjectHandle("/goal_point[0]"), sim.getObjectHandle("/goal_point[3]")],
         "1": [sim.getObjectHandle("/goal_point[1]"), sim.getObjectHandle("/goal_point[4]")],
@@ -224,144 +361,30 @@ if __name__ == '__main__':
 
     # Track completion status for each robot
     completed = {"0": False, "1": False, "2": False}
-    
-    
-    # Tuning parameters
-    repulsive_eta = 2
-    repulsive_max_dist = 4
-    repulsive_min_dist = 1
-
-    attractive_eta1 = 0.1
-    attractive_eta2 = 0.2
-    attractive_thresh = 5
-    
-    # ---------------------------------------------------------------------------------------------------------------------------
-
-    client = zmq.RemoteAPIClient()
-    sim = client.getObject('sim')
-
-    # Initialize lists to hold robot and goal positions
-    robots = []
-    robot_positions = []
-    goals = []
-    goal_positions = []
-    goal_grids = []
-
-    # Retrieve all robot and goal handles and positions
-    for i in range(3):  # For Pure_Robot[0] to Pure_Robot[2]
-        robot_handle = sim.getObjectHandle(f"/Pure_Robot[{i}]")
-        robots.append(robot_handle)
-        robot_pos = sim.getObjectPosition(robot_handle, sim.handle_world)
-        robot_positions.append(robot_pos)
-
-    for i in range(6):  # For goal_point[0] to goal_point[5]
-        goal_handle = sim.getObjectHandle(f"/goal_point[{i}]")
-        goals.append(goal_handle)
-        goal_pos = sim.getObjectPosition(goal_handle, sim.handle_world)
-        goal_positions.append(goal_pos)
-
-    # Initialize the Grid Map
-    worldmap = util.gridmap(sim, 15.0, goal_positions[0], robot_positions[0], inflate_iter=1)
-
-    # Convert goal positions to grid coordinates
-    for goal_pos in goal_positions:
-        goal_grids.append(worldmap.get_grid_coords(goal_pos))
-
-    # Visualize the map
-    worldmap.plot(normalized=True)
-    for goal_grid in goal_grids:
-        worldmap.plot_coord(goal_grid)
-
-    # Compute a grid of distances for obstacles
-    grid_height, grid_width = worldmap.gridmap.shape
-    eval_points = np.indices((grid_height, grid_width), dtype=float).transpose(1, 2, 0)  # Create the evaluation grid
-    obs_idx = np.argwhere(worldmap.norm_map == 1)  # Get indices of obstacles
-    distances_rep = np.linalg.norm(np.expand_dims(eval_points, axis=2) - np.expand_dims(obs_idx, axis=0), axis=3)
-
-    # Compute the repulsive field (static for all robot-goal pairs)
-    rep_potentials = np.apply_along_axis(
-        rep_hyper_vec, axis=-1, arr=distances_rep, eta=repulsive_eta, max_dist=repulsive_max_dist, min_dist=repulsive_min_dist
-    )
-    repulsive_field = np.sum(rep_potentials, axis=-1)
-
-    # Define robot-goal groups (predefined)
-    robot_goal_groups = {
-        0: [0, 3],  # Robot 0, Goals 0 and 3
-        1: [1, 4],  # Robot 1, Goals 1 and 4
-        2: [2, 5],  # Robot 2, Goals 2 and 5
-    }
-
-    # Predefined groups: Per-robot visualization
-    for robot_idx, goal_indices in robot_goal_groups.items():
-        print(f"Processing Robot {robot_idx} with Goals {goal_indices}")
-
-        # Get robot position
-        robot_grid = worldmap.get_grid_coords(robot_positions[robot_idx])
-
-        # Initialize combined attractive field for the selected goals
-        combined_attractive_field = np.zeros((grid_height, grid_width))
-    
-        # Compute the attractive potentials for the two specified goals
-        for goal_idx in goal_indices:
-            distances_att = np.linalg.norm(
-                np.expand_dims(eval_points, axis=2) - np.expand_dims(goal_grids[goal_idx], axis=0), axis=-1
-            )
-            distances_att = np.reshape(distances_att, (grid_height, grid_width))
-
-            attractive_field = att_quadcone_vec(
-                distances_att, eta1=attractive_eta1, eta2=attractive_eta2, thresh=attractive_thresh
-            )
-            combined_attractive_field += attractive_field
-
-        # Combine repulsive and attractive fields for this robot
-        robot_potential_field = repulsive_field + combined_attractive_field
-
-        # Visualize the individual potential field and heatmap for this robot
-        #util.visualize_potential_field_3D(robot_potential_field)
-        
-        # Compute the gradient and path for the robot to its first goal
-        world_ugrad = util.compute_discrete_gradient(robot_potential_field)
-        util.visualize_gradient(
-            worldmap.norm_map, world_ugrad.transpose(1, 2, 0), np.flip(goal_grids[goal_indices[0]])
-        )
-        path = util.discrete_grad_descent(robot_grid, goal_grids[goal_indices[0]], world_ugrad, max_iter=5000)
-        worldmap.plot(normalized=True)
-        util.plot_gradient_descent(plt.gca(), path)
-        util.visualize_potential_field_2D(robot_potential_field)
-    
-    # Compute and visualize one combined global potential field for all robots and goals
-
-    # Compute the global attractive field for all goals
-    global_attractive_field = np.zeros((grid_height, grid_width))
-    for goal_idx in range(len(goal_grids)):
-        distances_att = np.linalg.norm(
-            np.expand_dims(eval_points, axis=2) - np.expand_dims(goal_grids[goal_idx], axis=0), axis=-1
-        )
-        distances_att = np.reshape(distances_att, (grid_height, grid_width))
-
-        attractive_field = att_quadcone_vec(
-            distances_att, eta1=attractive_eta1, eta2=attractive_eta2, thresh=attractive_thresh
-        )
-        global_attractive_field += attractive_field
-
-    # Combine the global attractive field with the repulsive field
-    global_potential_field = repulsive_field + global_attractive_field
-    
-    # Normalize and scale for better visualization
-    global_potential_field = global_potential_field - np.min(global_potential_field)  # Offset to start at 0
-    global_potential_field = global_potential_field / np.max(global_potential_field)  # Normalize to [0, 1]
-    global_potential_field = global_potential_field * 10  # Scale to emphasize terrain features (NEW CHANGE)
-   
-    # Visualize the combined global potential field as a single 3D surface plot
-    print("Visualizing Combined Global Potential Field")
-    util.visualize_potential_field_3D(global_potential_field)
-    # ---------------------------------------------------------------------------------------------------------------------------
 
     # Main control loop for all robots
     while run_reactive_control:
         # Check if all robots have completed their goal queues
         if all(completed.values()):
             print("All robots have completed their goals. Exiting loop.")
+            for robot_name in ["0", "1", "2"]:
+                detected_positions = sim.callScriptFunction(f'getTargetBlobData@/Pure_Robot[{robot_name}]',sim.scripttype_childscript)
+                # filtering to avoid duplications
+                unique_detected_positions = []
+                for pos in detected_positions:
+                    # Check if this position is close to any already in unique_detected_positions
+                    if not any(is_close(pos, existing_pos) for existing_pos in unique_detected_positions):
+                        unique_detected_positions.append(pos)
+
+                detected_positions = unique_detected_positions
+
+                # Calculate and print some performance metric data
+                success_rate = calculate_success_rate(len(detected_positions), robot_name)
+                position_error = calculate_position_error(detected_positions, robot_name)
+                print("The num_detected = " + str(len(detected_positions)))
+                print("The detected_positions = " + str(detected_positions))
+                print(f"Robot {robot_name} Success Rate: {success_rate:.2f}%")
+                print(f"Robot {robot_name} Average Position Error: {position_error:.4f} meters")
             break  # Exit the loop when all robots are done
 
         # Loop through each robot
@@ -379,7 +402,7 @@ if __name__ == '__main__':
             robot_pos_world = robot_pose[:3]
             goal_pos_world = sim.getObjectPosition(current_goal, sim.handle_world)
 
-            # Update shared robot positions for communication
+            # Update shared robot positions for communication if needed
             shared_robot_positions[robot_name] = np.array(robot_pos_world[:2])
 
             # Initialize the gradient descent vector
@@ -391,6 +414,49 @@ if __name__ == '__main__':
 
                 # Smoothly stop the robot
                 smooth_stop(robot_name, sim, f'set_F@/Pure_Robot[{robot_name}]')
+
+                # If the current goal is the first primary goal(After Completing 1st primary goal: For exploration)
+                # Call to assign secondary goal based on what other robots detected
+                if goal_index == 0 and robot_name == "0":
+                    # Retrieve globalBlobData from other robots
+                    global_blob_data_sources0 = [
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[1]', sim.scripttype_childscript),
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[2]', sim.scripttype_childscript)
+                    ]
+
+                    # Retrieve available targetBlobsData
+                    targetBlobsData0 = sim.callScriptFunction('getTargetBlobData@/Pure_Robot[0]', sim.scripttype_childscript)
+
+                    # Process the retrieved data
+                    process_blob_data(global_blob_data_sources0, targetBlobsData0, "0", goal_queues["0"],sim)
+
+                if goal_index == 0 and robot_name == "1":
+                    # Retrieve globalBlobData from other robots
+                    global_blob_data_sources1 = [
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[0]', sim.scripttype_childscript),
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[2]', sim.scripttype_childscript)
+                    ]
+
+                    # Retrieve available targetBlobsData
+                    targetBlobsData1 = sim.callScriptFunction('getTargetBlobData@/Pure_Robot[1]', sim.scripttype_childscript)
+
+                    # Process the retrieved data
+                    process_blob_data(global_blob_data_sources1, targetBlobsData1, "1", goal_queues["1"],sim)
+
+
+
+                if goal_index == 0 and robot_name == "2":
+                    # Retrieve globalBlobData from other robots
+                    global_blob_data_sources2 = [
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[0]', sim.scripttype_childscript),
+                        sim.callScriptFunction('getGlobalBlobData@/Pure_Robot[1]', sim.scripttype_childscript)
+                    ]
+
+                    # Retrieve available targetBlobsData
+                    targetBlobsData2 = sim.callScriptFunction('getTargetBlobData@/Pure_Robot[2]', sim.scripttype_childscript)
+
+                    # Process the retrieved data
+                    process_blob_data(global_blob_data_sources2, targetBlobsData2, "2", goal_queues["2"],sim)
 
                 # Wait for the transition delay
                 time.sleep(goal_transition_delay)
@@ -421,7 +487,7 @@ if __name__ == '__main__':
                 )
 
             # Compute attractive gradient for the current goal
-            dU -= compute_attpotgrad(
+            dU -= 1.5*compute_attpotgrad(
                 np.array(goal_pos_world[:2]),
                 np.array(robot_pos_world[:2]),
                 eps1=620,
@@ -429,8 +495,8 @@ if __name__ == '__main__':
                 max_thresh=0.2,
             )
 
-            """
-            # To Handle Robot-Robot Repulsion if necessary(Now relatively safe)
+
+            # To Handle Robot-Robot Repulsion if necessary
             # Add robot-robot repulsion to the gradient
             for other_robot_name, other_robot_pos in shared_robot_positions.items():
                 if other_robot_name != robot_name:
@@ -438,11 +504,11 @@ if __name__ == '__main__':
                         np.array(robot_pos_world[:2]),
                         other_robot_pos
                     )
-            """
 
-            # To try when we detect path-crossing conflicts(Now relatively safe)
+
+            # To try when we detect path-crossing conflicts if necessary
             # Resolve conflicts based on proximity and priority
-            #dU = resolve_conflicts(robot_name, dU, priority_dict, shared_robot_positions, conflict_dist=1.0)
+            dU = resolve_conflicts(robot_name, dU, priority_dict, shared_robot_positions, conflict_dist=1.0)
 
             # Smooth the gradient for better transitions
             dU = smooth_gradient(dU, robot_name)
