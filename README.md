@@ -172,6 +172,8 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 	local smoothing_factor = 0.3 -- Adjust this for desired smoothness
 	smoothed_leftSpeed = (1 - smoothing_factor) * (smoothed_leftSpeed or 0) + smoothing_factor * blended_leftSpeed
 	smoothed_rightSpeed = (1 - smoothing_factor) * (smoothed_rightSpeed or 0) + smoothing_factor * blended_rightSpeed
+--- 
+ 
 ### Robot Communication
 - *The Purpose of Robot-Robot Communication: The robot-robot communication mechanism enhance collaboration among robots by sharing information about detected blobs. This approach ensures that robots can leverage each other's detection capabilities to identify and navigate toward targets more efficiently, even when a robot itself cannot directly detect a blob. This collaborative strategy is particularly beneficial in complex environments where individual robots may have limited detection ranges or obstructions in their paths. As the system size increases, robot communication ensures scalability by distributing the workload and reducing redundant efforts, ultimately leading to faster and more effective goal completion.*
 - *Basic Immplementation: Each Robot has 2 initial main goals(Primary goals that are predefined), The Visual Servo Detects other non-target blobs(Blobs with a different colour than the assigned robot color) and A control Logic assign them to their respective robot as Secondary goals. They are added after reaching the first goal to allow the robots to travel and identify different feature hence increasing the probability of detecting different coloured blobs. The second Primary goal ensures the task assigned to robots ends(Termination Check).*
