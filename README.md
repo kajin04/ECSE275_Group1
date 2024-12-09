@@ -186,11 +186,15 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 ## Performance Measurement
 
 - To measure the performance of the system, We use 2 different metrics(The Success Rate and The Position Accuracy Error). The comparison is done for Non-Communicating System and Communicating System.
-- The Success Rate is defined as percentage of Secondary Goals reached with respect to the Present Secondary Goals available.
+
+**The Success Rate is defined as percentage of Secondary Goals reached with respect to the Present Secondary Goals available.**
+
 $$
 \text{Success Rate} = \left( \frac{\text{Number of Target Blobs Detected}}{\text{Total Target Blobs}} \right) \times 100
 $$
-- The Position Accurary Error will be measured by comparing Expected(True Blob Position) to the Actual(Detected Blob Position) and have an error as the metric(Low Error is more desirable).
+
+**The Position Accurary Error will be measured by comparing Expected(True Blob Position) to the Actual(Detected Blob Position) and have an error as the metric(Low Error is more desirable).**
+
 $$
 \text{Position Error} = \sqrt{\left( x_{\text{expected}} - x_{\text{detected}} \right)^2 + \left( y_{\text{expected}} - y_{\text{detected}} \right)^2}
 $$
