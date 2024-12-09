@@ -213,31 +213,15 @@ In this experiment, we evaluated the performance of three robots (Red, Green, an
 |    (-6.7632, -2.2054)    |       (-6.775, -2.125)       |     (0.6809, 1.8578)     |        (0.725, 1.925)        |     (1.6734, -7.0077)    |        (1.750, -7.000)       |
 |     (1.0013, 6.1993)     |        (1.075, 6.225)        |                          |                              |     (4.6163, -2.2940)    |        (4.575, -2.225)       |
 
-- **Red Robot (ID: 0)**  
-  - **Detected Positions:**  
-    - (-6.7632, -2.2054)  
-    - (1.0013, 6.1993)  
-  - **Ground Truth Positions:**  
-    - (-6.775, -2.125)  
-    - (1.075, 6.225)  
+- **Red Robot (ID: 0)**   
   - **Success Rate:** 50%  
   - **Average Position Error:** ~0.0796 meters
 
 - **Green Robot (ID: 1)**  
-  - **Detected Positions:**  
-    - (0.6809, 1.8578)  
-  - **Ground Truth Positions:**  
-    - (0.725, 1.925)  
   - **Success Rate:** 25%  
   - **Average Position Error:** ~0.0804 meters
 
 - **Blue Robot (ID: 2)**  
-  - **Detected Positions:**  
-    - (1.6734, -7.0077)  
-    - (4.6163, -2.2940)  
-  - **Ground Truth Positions:**  
-    - (1.750, -7.000)  
-    - (4.575, -2.225)  
   - **Success Rate:** 40%  
   - **Average Position Error:** ~0.0787 meters
 
@@ -264,41 +248,23 @@ With robot-robot communication enabled, the robots successfully detect more blob
 
 ### Data Collected
 
+| Red Robot (ID:0)         |                              | Green Robot (ID:1)       |                              | Blue Robot (ID:2)        |                              |
+|--------------------------|------------------------------|--------------------------|------------------------------|--------------------------|------------------------------|
+| Detected Positions (x,y) | Ground Truth Positions (x,y) | Detected Positions (x,y) | Ground Truth Positions (x,y) | Detected Positions (x,y) | Ground Truth Positions (x,y) |
+|    (-6.7628, -2.2049)    |       (-6.775, -2.125)       |     (0.6798, 1.8585)     |        (0.725, 1.925)        |     (1.6736, -7.0108)    |        (1.750, -7.000)       |
+|    (-2.0433, -2.0047)    |        (-2.025, 6.225)       |    (-6.5733, -1.0273)    |        (-6.65, -1.025)       |     (4.5314, -2.1667)    |        (4.575, -2.225)       |
+|     (6.2978, -4.3759)    |         (6.325, -4.3)        |     (3.1753, -6.6447)    |         (3.1, -6.625)        |     (-0.6515, 0.2245)    |        (-0.725, 0.25)        |
+|                          |                              |                          |                              |     (1.0031, 4.4220)     |         (1.025, 4.5)         |
+
 - **Red Robot (ID: 0)**  
-  - **Detected Positions:**  
-    - (-6.7628, -2.2049)  
-    - (-2.0433, -2.0047)  
-    - (6.2978, -4.3759)  
-  - **Ground Truth Positions:**  
-    - (-6.775, -2.125)  
-    - (-2.025, 6.225)  
-    - (6.325, -4.3)  
   - **Success Rate:** 75%  
   - **Average Position Error:** ~1.6315 m
 
 - **Green Robot (ID: 1)**  
-  - **Detected Positions:**  
-    - (0.6798, 1.8585)  
-    - (-6.5733, -1.0273)  
-    - (3.1753, -6.6447)  
-  - **Ground Truth Positions:**  
-    - (0.725, 1.925)  
-    - (-6.65, -1.025)  
-    - (3.1, -6.625)  
   - **Success Rate:** 75%  
   - **Average Position Error:** ~0.0783 m
 
 - **Blue Robot (ID: 2)**  
-  - **Detected Positions:**  
-    - (1.6736, -7.0108)  
-    - (4.5314, -2.1667)  
-    - (-0.6515, 0.2245)  
-    - (1.0031, 4.4220)  
-  - **Ground Truth Positions:**  
-    - (1.750, -7.000)  
-    - (4.575, -2.225)  
-    - (-0.725, 0.25)  
-    - (1.025, 4.5)  
   - **Success Rate:** 80%  
   - **Average Position Error:** ~0.0772 m
 
