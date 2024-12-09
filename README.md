@@ -185,6 +185,8 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 
 ## Performance Measurement
 
+- To measure the performance of the system, We use 2 different metrics(The Success Rate and The Position Accuracy Error). The comparison is done for Non-Communicating System and Communicating System. 
+
 ## Results
 
 #### Key System Features
