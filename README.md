@@ -207,6 +207,12 @@ In this experiment, we evaluated the performance of three robots (Red, Green, an
 
 **Detected Positions vs. Ground Truth**
 
+| Red Robot (ID:0)         |                              | Green Robot (ID:1)       |                              | Blue Robot (ID:2)        |                              |
+|--------------------------|------------------------------|--------------------------|------------------------------|--------------------------|------------------------------|
+| Detected Positions (x,y) | Ground Truth Positions (x,y) | Detected Positions (x,y) | Ground Truth Positions (x,y) | Detected Positions (x,y) | Ground Truth Positions (x,y) |
+|    (-6.7632, -2.2054)    |       (-6.775, -2.125)       |     (0.6809, 1.8578)     |        (0.725, 1.925)        |     (1.6734, -7.0077)    |        (1.750, -7.000)       |
+|     (1.0013, 6.1993)     |        (1.075, 6.225)        |                          |                              |     (4.6163, -2.2940)    |        (4.575, -2.225)       |
+
 - **Red Robot (ID: 0)**  
   - **Detected Positions:**  
     - (-6.7632, -2.2054)  
