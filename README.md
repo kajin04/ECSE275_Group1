@@ -228,3 +228,30 @@ We have compiled a comprehensive video showcasing the project’s entire impleme
 
 
 ## Conclusion
+
+This project successfully demonstrated the integration of differential robot path planning with visual servoing in a multi-robot system. Through the combination of potential fields and blob detection, the robots effectively navigated toward their goals while avoiding obstacles and dynamically adapting to new targets. Key achievements include:
+
+1. **Dynamic Path Planning**: The robots navigated their environments autonomously, seamlessly switching between potential field-based obstacle avoidance and visual servoing for target tracking.
+2. **Collaborative Features**: Robot communication allowed for efficient sharing of target information, enabling dynamic updates to goals and enhancing overall task efficiency.
+3. **Collision Avoidance**: The combination of robot-robot repulsion and conflict resolution mechanisms ensured smooth navigation and minimized collisions in constrained environments.
+4. **Smooth Transitions**: Smoothing algorithms ensured that transitions between potential field navigation and visual servoing were free from abrupt, jerky movements.
+
+### Strengths
+- **Scalability**: The system is designed to scale with additional robots and goals, as seen in the code's use of communication and dynamic task allocation.
+- **Collision Avoidance**: Implementation of robot-robot repulsion and conflict resolution minimized potential deadlocks and ensured efficient navigation in constrained spaces.
+- **Robust Target Tracking**: The vision-based system accurately identified and pursued the nearest targets, prioritizing efficient goal completion.
+
+### Challenges and Improvements
+- **Communication Issues**: Managing live communication between robots presented challenges. Robots updated their detected balls at every time unit instead of only when a new ball was identified, leading to inefficiencies and confusion among robots. We improved the performance by refining the communication protocol to include rate-limited updates in this case.  
+- **Potential Field Tuning**: Fine-tuning the parameters of the potential field was another challenge. Achieving the right balance between attractive and repulsive forces required significant trial and error. Incorrect tuning could result in oscillations, inefficient paths, or even collisions. Using adaptive or self-tuning potential fields could improve the system's robustness.  
+- **Lighting and Detection**: Blob detection relied heavily on the simulated environment's lighting conditions. In real-world scenarios, advanced image processing techniques may improve detection reliability.
+- - **Deadlock Situations**: While conflict resolution addressed most cases, more sophisticated priority algorithms could further reduce rare deadlocks in complex scenarios.
+
+### Future Work
+- Develop adaptive potential field algorithms to dynamically adjust parameters based on the environment or robot behavior.
+- Integrate advanced vision algorithms, such as neural networks, to improve blob detection and classification in varying conditions.
+- Expand the system to handle uneven terrains or dynamic obstacles in real-world applications.
+- Optimize communication protocols for large-scale multi-robot systems to reduce latency and improve data-sharing efficiency.
+
+In summary, the project met its primary goals, laying a solid foundation for further exploration and improvement in collaborative multi-robot systems.
+
