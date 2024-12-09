@@ -3,7 +3,7 @@
 Temple Shema - Potential Field, Robot Communication, Performance Measurement, GitHub       
 Kartik Doddikindi - Visual Servo, Project Integration, Github  
 Jinsol Kang - Visual Servo, Collision Modeling, Project Integration, Github  
-Moses Muamba -   
+Moses Muamba - Potential Field, Github
 
 ## Introduction
 ECSE 275 introduced a variety of concepts covering a wide range of applications. Among these, what intrigued our group the most was the study of differential robots and their path planning. Mobile robots have numerous applications, particularly in autonomously planning their journeys to reach a destination. This motivated us to delve deeper and explore how we could expand on these ideas.
