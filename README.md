@@ -300,7 +300,7 @@ This project successfully demonstrated the integration of differential robot pat
 - **Deadlock Situations**: While conflict resolution addressed most cases, more sophisticated priority algorithms could further reduce rare deadlocks in complex scenarios.
 
 ### Future Work
-- Develop adaptive potential field algorithms to dynamically adjust parameters based on the environment or robot behavior.
+- Develop adaptive potential field algorithms to adjust parameters based on the environment or robot behavior dynamically.
 - Integrate advanced vision algorithms, such as neural networks, to improve blob detection and classification in varying conditions.
 - Expand the system to handle uneven terrains or dynamic obstacles in real-world applications.
 - Optimize communication protocols for large-scale multi-robot systems to reduce latency and improve data-sharing efficiency.
