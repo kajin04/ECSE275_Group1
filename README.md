@@ -225,7 +225,7 @@ The blank map provides a foundation for understanding the robot environment setu
 Robot 0 is tasked with reaching its assigned goals while avoiding obstacles. The heatmap below shows the combined potential field for Robot 0, including its assigned attractive and repulsive forces.
 
 <p align="center">
-  <img src="Images/robot_0_heatmap.png" alt="Heatmap for Robot 0" />
+  <img src="Images/robot_2_heatmap.png" alt="Heatmap for Robot 0" />
 </p>
 
 #### Heatmap for Robot 1
@@ -239,7 +239,7 @@ Robot 1 navigates its own path toward its respective goals. The heatmap highligh
 Robot 2's heatmap showcases its expected path based on the potential fields. This visualization illustrates how Robot 2 is influenced by its goals and obstacles in its path.
 
 <p align="center">
-  <img src="Images/robot_2_heatmap.png" alt="Heatmap for Robot 2" />
+  <img src="Images/robot_0_heatmap.png" alt="Heatmap for Robot 2" />
 </p>
 
 #### Key Observations
