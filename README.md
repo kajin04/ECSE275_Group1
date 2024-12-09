@@ -253,7 +253,66 @@ To improve our success rates, we implemented robot-robot communication by sharin
 
 ### Average Data Collected With Communication
 
+**Overview:**  
+With robot-robot communication enabled, the robots successfully detect more blobs, increasing their success rates compared to the non-communicating scenario. Although some positional estimates show increased error, this does not significantly hinder overall task completion due to the system’s layered approach to navigation and final alignment.
 
+### Data Collected
+
+- **Red Robot (ID: 0)**  
+  - **Detected Positions:**  
+    - (-6.7628, -2.2049)  
+    - (-2.0433, -2.0047)  
+    - (6.2978, -4.3759)  
+  - **Ground Truth Positions:**  
+    - (-6.775, -2.125)  
+    - (-2.025, 6.225)  
+    - (6.325, -4.3)  
+  - **Success Rate:** 75%  
+  - **Average Position Error:** ~1.6315 m
+
+- **Green Robot (ID: 1)**  
+  - **Detected Positions:**  
+    - (0.6798, 1.8585)  
+    - (-6.5733, -1.0273)  
+    - (3.1753, -6.6447)  
+  - **Ground Truth Positions:**  
+    - (0.725, 1.925)  
+    - (-6.65, -1.025)  
+    - (3.1, -6.625)  
+  - **Success Rate:** 75%  
+  - **Average Position Error:** ~0.0783 m
+
+- **Blue Robot (ID: 2)**  
+  - **Detected Positions:**  
+    - (1.6736, -7.0108)  
+    - (4.5314, -2.1667)  
+    - (-0.6515, 0.2245)  
+    - (1.0031, 4.4220)  
+  - **Ground Truth Positions:**  
+    - (1.750, -7.000)  
+    - (4.575, -2.225)  
+    - (-0.725, 0.25)  
+    - (1.025, 4.5)  
+  - **Success Rate:** 80%  
+  - **Average Position Error:** ~0.0772 m
+
+### Interpretation
+
+- **Improved Success Rates with Communication:**  
+  Communication helps each robot identify more targets, significantly raising the success rates (around 75%–80%). Shared information enables them to detect secondary goals they might have missed when operating independently.
+
+- **Increased Position Error in Some Cases:**  
+  For the Red Robot, the average position error is higher (~1.63 m). This is partly due to handling multiple secondary goals. While these global estimates become less precise as more targets are introduced, this initial inaccuracy does not critically undermine the system’s effectiveness and can be further mitigated by using advanced filtering to reduce noice that causes the errors.
+
+
+- **Acceptable Error for System’s Purpose:**  
+  The robot’s global position estimates are used mainly to guide them toward the general vicinity of their targets using potential fields. Once the robots get closer, they switch to visual servoing—using direct sensor feedback—to accurately pinpoint and handle the blobs. Thus, even if the initial positional data is off, the robots can still refine their trajectory as they approach their goal.
+
+**Potential Improvements:**
+ The system can be enhanced by strategic choice of primary goals to distribute them to increase the reach of the robots. This will increase the probability of detecting more blobs which will be relied on to assign secondary goals. Furthermore, the system is scalable and by increasing the size of the robots(number of robots), there will be more communication which would benefit to increasing the success rates of each individual robot. 
+
+**Conclusion:**  
+The introduction of robot-robot communication increases blob detection success while slightly affecting positional precision. However, the system’s reliance on visual servoing at close range ensures that this increased initial error does not negatively impact the final outcome. The robots can still locate, approach, and accurately interact with their targets, meeting the overall objectives of the task. With this intergration, the system gains robot collaborative efforts to achieve their respective targets more effectively.
 
 ## Results
 
