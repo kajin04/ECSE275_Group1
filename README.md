@@ -185,8 +185,6 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 
 ## Results
 
-<p align="center">
 [![Multi-agent Differential Robot Path Planning with Visual Servoing Full Implementation](https://img.youtube.com/vi/zAbLN_3_CSA/0.jpg)](https://www.youtube.com/watch?v=zAbLN_3_CSA)
-</p>
 
 ## Conclusion
