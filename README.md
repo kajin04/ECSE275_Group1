@@ -207,20 +207,33 @@ In this experiment, we evaluated the performance of three robots (Red, Green, an
 
 **Detected Positions vs. Ground Truth**
 
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
-\begin{tabular}{l|cc|cc|cc}
-\cline{2-7}
-                                                                         & \multicolumn{2}{c|}{\cellcolor[HTML]{FFCCC9}Red Robot (ID:0)}                                                                & \multicolumn{2}{c|}{\cellcolor[HTML]{9FFFC0}Green Robot (ID:1)}                                                              & \multicolumn{2}{c|}{\cellcolor[HTML]{DAE8FC}Blue Robot (ID:2)}                                                                                    \\ \cline{2-7} 
-                                                                         & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Detected Positions (x,y)} & \cellcolor[HTML]{EFEFEF}Ground Truth Positions (x,y) & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Detected Positions (x,y)} & \cellcolor[HTML]{EFEFEF}Ground Truth Positions (x,y) & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Detected Positions (x,y)} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Ground Truth Positions (x,y)} \\ \cline{2-7} 
-                                                                         & \multicolumn{1}{c|}{(-6.7632, -2.2054)}                               & (-6.775, -2.125)                                     & \multicolumn{1}{c|}{(0.6809, 1.8578)}                                 & (0.725, 1.925)                                       & \multicolumn{1}{c|}{(1.6734, -7.0077)}                                & \multicolumn{1}{c|}{(1.750, -7.000)}                                      \\ \cline{4-5}
-                                                                         & \multicolumn{1}{c|}{(1.0013, 6.1993)}                                 & (1.075, 6.225)                                       &                                                                       &                                                      & \multicolumn{1}{c|}{(4.6163, -2.2940)}                                & \multicolumn{1}{c|}{(4.575, -2.225)}                                      \\ \hline
-\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}Success Rate (\%)}          & \multicolumn{2}{c|}{50}                                                                                                      & \multicolumn{2}{c|}{25}                                                                                                      & \multicolumn{2}{c}{40}                                                                                                                            \\ \hline
-\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}Average Position Error (m)} & \multicolumn{2}{c|}{$\sim$0.0796}                                                                                            & \multicolumn{2}{c|}{$\sim$0.0804}                                                                                            & \multicolumn{2}{c|}{$\sim$0.0787}                                                                                                                 \\ \hline
-\end{tabular}
-\end{table}
+- **Red Robot (ID: 0)**  
+  - **Detected Positions:**  
+    - (-6.7632, -2.2054)  
+    - (1.0013, 6.1993)  
+  - **Ground Truth Positions:**  
+    - (-6.775, -2.125)  
+    - (1.075, 6.225)  
+  - **Success Rate:** 50%  
+  - **Average Position Error:** ~0.0796 meters
+
+- **Green Robot (ID: 1)**  
+  - **Detected Positions:**  
+    - (0.6809, 1.8578)  
+  - **Ground Truth Positions:**  
+    - (0.725, 1.925)  
+  - **Success Rate:** 25%  
+  - **Average Position Error:** ~0.0804 meters
+
+- **Blue Robot (ID: 2)**  
+  - **Detected Positions:**  
+    - (1.6734, -7.0077)  
+    - (4.6163, -2.2940)  
+  - **Ground Truth Positions:**  
+    - (1.750, -7.000)  
+    - (4.575, -2.225)  
+  - **Success Rate:** 40%  
+  - **Average Position Error:** ~0.0787 meters
 
 *Note:* The success rate is defined as the percentage of correctly identified target positions (blobs) out of the total opportunities. The position error is computed as the Euclidean distance between the detected positions and their corresponding ground truth positions.
 
