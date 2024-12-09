@@ -303,5 +303,9 @@ This project successfully demonstrated the integration of differential robot pat
 - Expand the system to handle uneven terrains or dynamic obstacles in real-world applications.
 - Optimize communication protocols for large-scale multi-robot systems to reduce latency and improve data-sharing efficiency.
 
-In summary, the project met its primary goals, laying a solid foundation for further exploration and improvement in collaborative multi-robot systems.
+In summary, the project met its primary goals, laying a solid foundation for further exploration and improvement in collaborative multi-robot systems by successfully demonstrating the feasibility and effectiveness of multi-agent robotic systems operating in dynamic environments. The integration of visual servoing, potential field navigation, and real-time collision avoidance enabled these robots to dynamically adjust their paths and achieve their goals, even in the presence of obstacles and changing conditions. 
+
+The practical applications of this system extend to scenarios requiring adaptability and precision. For example, it could transform operations in chaotic warehouses where paths to items are constantly obstructed by moving people, equipment, and inventory. The ability to react dynamically to these changes while maintaining a focus on predefined goals can significantly enhance efficiency and safety. Similarly, this technology has potential in rescue operations, where pre-planned routes are often infeasible, and rapid reactivity to new obstacles and conditions is critical to success. 
+
+These implementations highlight the project’s versatility and the broader impact autonomous systems can have across industries. By addressing challenges inherent in unstructured and unpredictable environments, this work underscores the value of multi-agent robotics in advancing automation and assisting with critical tasks in real-world applications.
 
