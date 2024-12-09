@@ -295,7 +295,7 @@ This project successfully demonstrated the integration of differential robot pat
 - **Communication Issues**: Managing live communication between robots presented challenges. Robots updated their detected balls at every time unit instead of only when a new ball was identified, leading to inefficiencies and confusion among robots. We improved the performance by refining the communication protocol to include rate-limited updates in this case.  
 - **Potential Field Tuning**: Fine-tuning the parameters of the potential field was another challenge. Achieving the right balance between attractive and repulsive forces required significant trial and error. Incorrect tuning could result in oscillations, inefficient paths, or even collisions. Using adaptive or self-tuning potential fields could improve the system's robustness.  
 - **Lighting and Detection**: Blob detection relied heavily on the simulated environment's lighting conditions. In real-world scenarios, advanced image processing techniques may improve detection reliability.
-- - **Deadlock Situations**: While conflict resolution addressed most cases, more sophisticated priority algorithms could further reduce rare deadlocks in complex scenarios.
+- **Deadlock Situations**: While conflict resolution addressed most cases, more sophisticated priority algorithms could further reduce rare deadlocks in complex scenarios.
 
 ### Future Work
 - Develop adaptive potential field algorithms to dynamically adjust parameters based on the environment or robot behavior.
