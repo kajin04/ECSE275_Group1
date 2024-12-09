@@ -200,6 +200,66 @@ $$
 $$
 
 
+### Overview
+In this experiment, we evaluated the performance of three robots (Red, Green, and Blue) in locating and positioning themselves relative to 13 scattered blobs in the environment. The robots operate without robot-robot communication first to get the base performance, and then under same conditions with robot-robot communication we measured their success rate and positional accuracy.
+
+### Average Data Collected In base case(Without Communication)
+
+**Detected Positions vs. Ground Truth**
+
+- **Red Robot (ID: 0)**  
+  - **Detected Positions:**  
+    - (-6.7632, -2.2054)  
+    - (1.0013, 6.1993)  
+  - **Ground Truth Positions:**  
+    - (-6.775, -2.125)  
+    - (1.075, 6.225)  
+  - **Success Rate:** 50%  
+  - **Average Position Error:** ~0.0796 meters
+
+- **Green Robot (ID: 1)**  
+  - **Detected Positions:**  
+    - (0.6809, 1.8578)  
+  - **Ground Truth Positions:**  
+    - (0.725, 1.925)  
+  - **Success Rate:** 25%  
+  - **Average Position Error:** ~0.0804 meters
+
+- **Blue Robot (ID: 2)**  
+  - **Detected Positions:**  
+    - (1.6734, -7.0077)  
+    - (4.6163, -2.2940)  
+  - **Ground Truth Positions:**  
+    - (1.750, -7.000)  
+    - (4.575, -2.225)  
+  - **Success Rate:** 40%  
+  - **Average Position Error:** ~0.0787 meters
+
+*Note:* The success rate is defined as the percentage of correctly identified target positions (blobs) out of the total opportunities. The position error is computed as the Euclidean distance between the detected positions and their corresponding ground truth positions.
+
+### Interpretation
+
+**Positional Accuracy:**  
+All three robots demonstrated an average positional error of approximately 0.078–0.080 meters (about 8 cm from the ground truth). Whether this level of accuracy is acceptable depends on the scale of the environment and the required precision.
+
+**Success Rates:**  
+- Red Robot: 50%  
+- Green Robot: 25%  
+- Blue Robot: 40%
+
+These rates show that the robots, operating without communication, only partially succeeded in accurately locating and identifying the scattered blobs. This serves as a baseline measure of their autonomous detection and localization capabilities.
+
+### Considerations for Improvement
+
+**Without Inter-Robot Communication:**  
+These results form a baseline to compare against scenarios where robots can exchange information. If inter-robot communication is introduced, we would expect improvements in both success rates and positional accuracy due to shared knowledge of blob locations.
+
+**Future Work:**  
+Additional experiments, larger sample sizes, and robust statistical analyses (e.g., confidence intervals) are necessary to confirm the significance of these findings. Future studies will involve comparing these non-communicating robot performance metrics with results obtained when communication protocols are implemented.
+
+
+
+
 ## Results
 
 #### Key System Features
