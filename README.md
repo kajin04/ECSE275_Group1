@@ -210,8 +210,42 @@ Here, the robot detects a target ball using the vision system and successfully n
   <img src="Images/robottoballtogoalvid.gif" alt="Robot Navigating to Ball" />
 </p>
 
+### Heatmap Visualizations of Potential Fields
 
----
+To enhance our understanding of the robots' interactions with their environment and validate the simulation setup, we generated heatmaps of the potential fields. These heatmaps depict both the repulsive forces (from obstacles and other robots) and the attractive forces (from goals). By analyzing these heatmaps, we gained insights into how the robots were expected to navigate their environment before running the simulation.
+
+#### Blank Map with Obstacles
+The blank map provides a foundation for understanding the robot environment setup, highlighting obstacles and grid boundaries. This visualization ensures that obstacle placements align with the simulation goals.
+
+<p align="center">
+  <img src="Images/blank_map_with_obstacles.png" alt="Blank Map with Obstacles" />
+</p>
+
+#### Heatmap for Robot 0
+Robot 0 is tasked with reaching its assigned goals while avoiding obstacles. The heatmap below shows the combined potential field for Robot 0, including its assigned attractive and repulsive forces.
+
+<p align="center">
+  <img src="Images/robot_0_heatmap.png" alt="Heatmap for Robot 0" />
+</p>
+
+#### Heatmap for Robot 1
+Robot 1 navigates its own path toward its respective goals. The heatmap highlights the interplay of repulsive forces (keeping the robot away from obstacles) and attractive forces (guiding it to its goals).
+
+<p align="center">
+  <img src="Images/robot_1_heatmap.png" alt="Heatmap for Robot 1" />
+</p>
+
+#### Heatmap for Robot 2
+Robot 2's heatmap showcases its expected path based on the potential fields. This visualization illustrates how Robot 2 is influenced by its goals and obstacles in its path.
+
+<p align="center">
+  <img src="Images/robot_2_heatmap.png" alt="Heatmap for Robot 2" />
+</p>
+
+#### Key Observations
+- **Obstacle Avoidance**: The repulsive forces successfully push the robots away from obstacles, ensuring collision-free paths.
+- **Goal Attraction**: The attractive forces guide the robots smoothly toward their respective goals.
+- **Path Planning**: The combined heatmaps demonstrate how the potential fields work together to dynamically plan paths for each robot.
 
 ### Full Implementation Video
 
