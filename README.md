@@ -1,7 +1,7 @@
 # Multi-agent Differential Robot Path Planning with Visual Servoing
 <ins>Team Members</ins>  
 Temple Shema - Potential Field, Robot Communication, Performance Measurement, GitHub       
-Kartik Doddikindi - Visual Servo, Project Integration, Github  
+Kartik Doddikindi - Visual Servo, Measurement Modeling, Project Integration, Github  
 Jinsol Kang - Visual Servo, Collision Modeling, Project Integration, Github  
 Moses Muamba - Potential Field, Github
 
