@@ -1,6 +1,6 @@
 # Multi-agent Differential Robot Path Planning with Visual Servoing
 <ins>Team Members</ins>  
-Temple Shema -   
+Temple Shema - Potential Field, Robot Communication, Performance Measurement, GitHub       
 Kartik Doddikindi -   
 Jinsol Kang - Visual Servo, Collision Modeling, Github  
 Moses Muamba -   
@@ -172,7 +172,8 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 	local smoothing_factor = 0.3 -- Adjust this for desired smoothness
 	smoothed_leftSpeed = (1 - smoothing_factor) * (smoothed_leftSpeed or 0) + smoothing_factor * blended_leftSpeed
 	smoothed_rightSpeed = (1 - smoothing_factor) * (smoothed_rightSpeed or 0) + smoothing_factor * blended_rightSpeed
-
+<ins>Robot Communication</ins>
+- *Implementation of shared detected blob Position*
 ## Results
 
 ## Conclusion
