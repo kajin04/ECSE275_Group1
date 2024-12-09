@@ -222,7 +222,7 @@ We have compiled a comprehensive video showcasing the project’s entire impleme
 4. **Collaborative Robot Communication**: Robots are designed to share information about detected blobs and update their goals dynamically, enhancing task efficiency and adaptability.
 
 <div align="center">
-  *Without Communication*
+  Without Communication
 </div>
 
 <div align="center">
@@ -232,7 +232,7 @@ We have compiled a comprehensive video showcasing the project’s entire impleme
 </div>
 
 <div align="center">
-  *With Communication*
+  With Communication
 </div>
 
 <div align="center">
