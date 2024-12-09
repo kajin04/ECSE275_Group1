@@ -222,8 +222,22 @@ We have compiled a comprehensive video showcasing the project’s entire impleme
 4. **Collaborative Robot Communication**: Robots are designed to share information about detected blobs and update their goals dynamically, enhancing task efficiency and adaptability.
 
 <div align="center">
+  *Without Communication*
+</div>
+
+<div align="center">
   <a href="https://www.youtube.com/watch?v=zAbLN_3_CSA">
     <img src="https://img.youtube.com/vi/zAbLN_3_CSA/0.jpg" alt="Multi-agent Differential Robot Path Planning with Visual Servoing Full Implementation">
+  </a>
+</div>
+
+<div align="center">
+  *With Communication*
+</div>
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=zEdcGga61xY">
+    <img src="https://img.youtube.com/vi/zEdcGga61xY/0.jpg" alt="Multi-agent Differential Robot Path Planning with Visual Servoing and Communication">
   </a>
 </div>
 
