@@ -185,6 +185,40 @@ If a ball is detected by the visual servoing system, it overrides the potential 
 
 ## Results
 
+#### Key System Features
+
+**Robot Obstacle Avoidance**  
+In this demonstration, the robot successfully detects and avoids obstacles in its path using the potential field algorithm. The attractive force pulls the robot toward the goal, while the repulsive forces from obstacles guide it around them. This process ensures collision-free navigation in dynamic environments.
+
+<p align="center">
+  <img src="Images/robotobstacleavoidancevid.gif" alt="Robot Obstacle Avoidance" />
+</p>
+
+**Robot Seeking the Closest Ball**  
+In this clip, the robot demonstrates its ability to identify and seek the nearest ball using blob detection. Depth data helps prioritize the closest target, enabling the robot to execute tasks efficiently while avoiding distractions from other objects.
+
+<p align="center">
+  <img src="Images/robotseekingballvid.gif" alt="Robot Seeking Ball" />
+</p>
+
+**Robot Ball Detection and Goal Navigation**  
+Here, the robot detects a target ball using the vision system and successfully navigates toward it using the depth data from the vision sensor. The blending of potential fields and visual servoing allows smooth switching between modes, ensuring the robot tracks the ball efficiently.
+
+<p align="center">
+  <img src="Images/robottoballtogoalvid.gif" alt="Robot Navigating to Ball" />
+</p>
+
+
+---
+
+### Full Implementation Video
+
+We have compiled a comprehensive video showcasing the project’s entire implementation and functionality, uploaded to YouTube. The video demonstrates:
+1. **Initial Setup**: Overview of the simulated environment, including robots, obstacles, and goal objects.
+2. **Robot Navigation**: Visualizations of obstacle avoidance, target ball detection, and collaborative goal achievement.
+3. **Collision Avoidance**: The system incorporates conflict resolution and robot-robot repulsion to prevent collisions, ensuring smooth navigation in multi-robot environments.
+4. **Collaborative Robot Communication**: Robots are designed to share information about detected blobs and update their goals dynamically, enhancing task efficiency and adaptability.
+
 [![Multi-agent Differential Robot Path Planning with Visual Servoing Full Implementation](https://img.youtube.com/vi/zAbLN_3_CSA/0.jpg)](https://www.youtube.com/watch?v=zAbLN_3_CSA)
 
 
