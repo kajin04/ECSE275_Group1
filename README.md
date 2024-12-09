@@ -2,7 +2,7 @@
 <ins>Team Members</ins>  
 Temple Shema - Potential Field, Robot Communication, Performance Measurement, GitHub       
 Kartik Doddikindi - Visual Servo, Project Integration, Github  
-Jinsol Kang - Visual Servo, Collision Modeling, Github  
+Jinsol Kang - Visual Servo, Collision Modeling, Project Integration, Github  
 Moses Muamba -   
 
 ## Introduction
