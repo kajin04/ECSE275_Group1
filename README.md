@@ -201,7 +201,7 @@ $$
 
 
 ### Overview
-In this experiment, we evaluated the performance of three robots (Red, Green, and Blue) in locating and positioning themselves relative to 13 scattered blobs in the environment. The robots operate without robot-robot communication first to get the base performance, and then under same conditions with robot-robot communication we measured their success rate and positional accuracy.
+In this experiment, we evaluated the performance of three robots (Red, Green, and Blue) in locating and positioning themselves relative to 13 scattered blobs in the environment. The robots operate without robot-robot communication first to get the base performance, and then under same conditions with robot-robot communication over several times and we measured their success rate and positional accuracy.
 
 ### Average Data Collected In base case(Without Communication)
 
@@ -240,23 +240,18 @@ In this experiment, we evaluated the performance of three robots (Red, Green, an
 ### Interpretation
 
 **Positional Accuracy:**  
-All three robots demonstrated an average positional error of approximately 0.078–0.080 meters (about 8 cm from the ground truth). Whether this level of accuracy is acceptable depends on the scale of the environment and the required precision.
+All three robots demonstrated an average positional error of approximately 0.078–0.080 meters (about 8 cm in the world coordinate). Whether this level of accuracy is acceptable depends on the scale of the environment and the required precision. The precision can be improved by fine tuning different set thresholds for vison sensors but the set values provided better performance.
 
 **Success Rates:**  
 - Red Robot: 50%  
 - Green Robot: 25%  
 - Blue Robot: 40%
 
-These rates show that the robots, operating without communication, only partially succeeded in accurately locating and identifying the scattered blobs. This serves as a baseline measure of their autonomous detection and localization capabilities.
+These rates show that the robots, operating without communication, only partially succeeded in accurately locating and identifying the scattered blobs. This serves as a baseline measure of their autonomous detection and localization capabilities. This highlight the weakness of only reliance on visual sensors to capture all components in the environment.
 
-### Considerations for Improvement
+To improve our success rates, we implemented robot-robot communication by sharing detected blobs(goals) and use potential fields to leverage other robot's vision data and improve the performance.
 
-**Without Inter-Robot Communication:**  
-These results form a baseline to compare against scenarios where robots can exchange information. If inter-robot communication is introduced, we would expect improvements in both success rates and positional accuracy due to shared knowledge of blob locations.
-
-**Future Work:**  
-Additional experiments, larger sample sizes, and robust statistical analyses (e.g., confidence intervals) are necessary to confirm the significance of these findings. Future studies will involve comparing these non-communicating robot performance metrics with results obtained when communication protocols are implemented.
-
+### Average Data Collected With Communication
 
 
 
