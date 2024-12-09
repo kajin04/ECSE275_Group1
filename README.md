@@ -149,6 +149,7 @@ graph TD
 subgraph Visual Servo
 A(Vision Sensor) -->|pixel data|B(Visual Servo)
 end
+    A --> |respective ball location|G(Other Robot)
     B --> |wheel speed|C(Actuation)
     D(Differential Robot) --> |wheel speed|C
     E --> |potential|D
